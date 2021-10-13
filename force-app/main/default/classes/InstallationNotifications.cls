@@ -33,7 +33,7 @@
 * @description Domain for building and publishing install script triggered user notifications.
 */
 
-public inherited sharing class InstallationNotifications {
+public inherited sharing class InstallationNotifications implements Queueable, Database.AllowsCallouts{
 
    @TestVisible private List<Custom_Notification__mdt> activeNotifications;
    @TestVisible private List<CustomNotificationType> customNotificationTypes;
@@ -49,8 +49,14 @@ public inherited sharing class InstallationNotifications {
 
    public InstallationNotifications(InstallContext context) {
       this.context = context;
-      initializeNotifications();
+      //initializeNotifications();
    }
+
+   public void execute(QueueableContext param1) {
+      throw new InstallationNotificationsException('An Error Happened');
+   }
+
+   public class InstallationNotificationsException extends Exception {}
 
    private void initializeNotifications () {
       this.activeNotifications = installationNotificationsSelector.getActiveCustomNotifications();
@@ -152,5 +158,4 @@ public inherited sharing class InstallationNotifications {
           : Type.forName(classImpl);
       return classType;
    }
-
 }
