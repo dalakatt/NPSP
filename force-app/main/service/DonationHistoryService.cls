@@ -81,11 +81,36 @@ public with sharing class DonationHistoryService {
         List<DonationHistoryController.DonationHistory> partialAndSoftCredit = verifyPartialAndSoftCreditCondition(softCredit, partialSoftCredit);
         
         donationHistory.addAll(hardCredit);
-        donationHistory.addAll(partialAndSoftCredit);
-
+		//List<DonationHistoryController.DonationHistory> partialAndSoftCreditAfterAmountChange = changeAmountFieldForPartialSoftCredits(partialAndSoftCredit);
+        //donationHistory.addAll(partialAndSoftCreditAfterAmountChange);
+		donationHistory.addAll(partialAndSoftCredit);
+		
         return donationHistory;
     }
     
+    private static List<DonationHistoryController.DonationHistory> changeAmountFieldForPartialSoftCredits(List<DonationHistoryController.DonationHistory> partialAndSoftCredit){
+    	List<DonationHistoryController.DonationHistory> partialListWithModifiedAmount = new List<DonationHistoryController.DonationHistory>();
+		List<Id> partialSoftCreditIds = new List<Id>();
+		for(DonationHistoryController.DonationHistory ocr: partialAndSoftCredit){
+            if(ocr.creditType == PARTIAL_SOFT_CREDIT){
+                partialSoftCreditIds.add(ocr.Id);
+            }
+        }
+        List<Partial_Soft_Credit__c> partialSoftCredit = [SELECT id, Amount__c, Contact_Role_ID__c FROM Partial_Soft_Credit__c WHERE Contact_Role_ID__c IN :partialSoftCreditIds];
+        for(DonationHistoryController.DonationHistory ocr: partialAndSoftCredit){
+            if(ocr.creditType == PARTIAL_SOFT_CREDIT){
+                for(Partial_Soft_Credit__c psc: partialSoftCredit){
+                    if(ocr.Id == psc.Contact_Role_ID__c){
+                        ocr.Amount = psc.Amount__c;
+                    }
+                }
+                
+            }
+        }
+		
+		return partialListWithModifiedAmount;
+    }
+
     /** 
     * @author Salesforce.org
     * @date 2021
@@ -166,7 +191,7 @@ public with sharing class DonationHistoryService {
         List<Id> partialSoftCreditIds = filterVerifiedIds(partialSoft);
         List<DonationHistoryController.DonationHistory> partialAndSoftCredit = new List<DonationHistoryController.DonationHistory>();
         for(DonationHistoryController.DonationHistory ocr: soft){
-            if (!partialSoftCreditIds.contains(ocr.id)) {
+			if (!partialSoftCreditIds.contains(ocr.id)) {
                 partialAndSoftCredit.add(ocr);
             }
         }
