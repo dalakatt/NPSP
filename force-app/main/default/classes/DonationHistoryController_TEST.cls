@@ -66,7 +66,7 @@ public class DonationHistoryController_TEST {
     @TestSetup
     static void makeData(){
         Date myDateTime = Date.newInstance(2020, 2, 2);
-
+        Date anotherYear = Date.newInstance(2019, 2, 2);
         UTIL_UnitTestData_TEST.createAccountContactTestData(CAO_Constants.ONE_TO_ONE_ORGANIZATION_TYPE, 1, 3, 1);
         Account accSrc = UTIL_UnitTestData_TEST.listAccT[0];
         list<Contact> listConSrc = UTIL_UnitTestData_TEST.listConT; 
@@ -101,7 +101,7 @@ public class DonationHistoryController_TEST {
             Primary_Contact__c=listConSrc[1].Id, 
             Amount=150,
             StageName='Closed Won', 
-            CloseDate=myDateTime
+            CloseDate=anotherYear
         );
         List<Opportunity> recordsOpp = new List<Opportunity>();
         recordsOpp.add(opportunityHardCredit);
@@ -224,5 +224,16 @@ public class DonationHistoryController_TEST {
             message = e.getMessage();
         }
         System.assertEquals('Insufficient Permissions', message, 'should not have access to donationHistory');
+    }
+
+    @IsTest
+    private static void shouldReturnYearsForFilter () {
+       Contact thecontact = [Select id, Name from contact where FirstName ='TestFirstName11' limit 1];
+       
+        List<String> donationsYears = DonationHistoryController.getYearsWithDonations(thecontact.id);
+        System.assertNotEquals(null, donationsYears, 'donationsYears should not be null');
+        System.assertEquals(2, donationsYears.size(), 'donationsYears should have 2 elements');
+        System.assertEquals('2020', donationsYears[0], 'donationsYears should be in descendent order');
+
     }
 }

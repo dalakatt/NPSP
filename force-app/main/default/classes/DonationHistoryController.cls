@@ -75,4 +75,14 @@ public with sharing class DonationHistoryController {
             throw new UTIL_Permissions.InsufficientPermissionException(ex.getMessage());
         }
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<String> getYearsWithDonations(Id contactId){
+        try {
+            return new DonationHistoryService().getYearsWithDonationsForContact(contactId);
+
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }

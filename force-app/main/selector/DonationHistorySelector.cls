@@ -73,4 +73,13 @@ public inherited sharing class DonationHistorySelector {
             WITH SECURITY_ENFORCED
         ];
     }   
+
+    public List<AggregateResult> getYearsWithDonationForContact(Id contactId) {
+        return [SELECT   Calendar_Year(Opportunity.CloseDate)
+                FROM     OpportunityContactRole 
+                WHERE    Opportunity.IsWon = true 
+                AND      ContactId =:contactId 
+                GROUP BY Calendar_YEAR(Opportunity.CloseDate)
+                ORDER BY Calendar_YEAR(Opportunity.CloseDate) DESC];
+    }
 }

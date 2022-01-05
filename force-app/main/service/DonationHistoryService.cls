@@ -79,6 +79,18 @@ public with sharing class DonationHistoryService {
         }
     }
 
+    public List<String> getYearsWithDonationsForContact(Id contactId) {
+        List<AggregateResult> results = new DonationHistorySelector().getYearsWithDonationForContact(contactId);
+            
+        List<String> toReturn = new List<String>();
+
+        for(AggregateResult result : results) {
+            toReturn.add(String.valueOf(result.get('expr0')));
+        }
+
+        return toReturn;
+    }
+
     private static List<DonationHistoryController.DonationHistory> buildDonationHistoryFromOCRs(List<OpportunityContactRole> credits){
         List<DonationHistoryController.DonationHistory> donationHistory = new List<DonationHistoryController.DonationHistory>();
         List<DonationHistoryController.DonationHistory> hardCredits = buildHardCreditHistoryFromOCRs(credits);
