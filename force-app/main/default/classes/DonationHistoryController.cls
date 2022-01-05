@@ -76,11 +76,15 @@ public with sharing class DonationHistoryController {
         }
     }
 
+    /**
+     * @description returns the years when the contact made at least 1 donation
+     * @param contactId Id id of the contact
+     * @returns List<String>
+     */
     @AuraEnabled(cacheable=true)
     public static List<String> getYearsWithDonations(Id contactId){
         try {
             return new DonationHistoryService().getYearsWithDonationsForContact(contactId);
-
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

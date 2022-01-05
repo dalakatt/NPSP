@@ -79,15 +79,28 @@ public with sharing class DonationHistoryService {
         }
     }
 
+    /**
+     * @descritpion returns the years where the contact made at least 1 donation.
+     * @param contactId Id the contact id.
+     * @returns List<String>
+     */
     public List<String> getYearsWithDonationsForContact(Id contactId) {
-        List<AggregateResult> results = new DonationHistorySelector().getYearsWithDonationForContact(contactId);
-            
-        List<String> toReturn = new List<String>();
+        
+        if (!hasAccessToDonationHistory()) {
+            throw new UTIL_Permissions.InsufficientPermissionException(Label.commonInsufficientPermissions);
+        }
 
+        return convertAggregateResultListInStringList(new DonationHistorySelector().getYearsWithDonationForContact(contactId));
+     }
+
+    /**
+     * @description converts a List<AggregateResult> in a List<String> 
+     */ 
+    private List<String> convertAggregateResultListInStringList(List<AggregateResult> results) {
+        List<String> toReturn = new List<String>();
         for(AggregateResult result : results) {
             toReturn.add(String.valueOf(result.get('expr0')));
         }
-
         return toReturn;
     }
 
