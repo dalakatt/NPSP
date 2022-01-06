@@ -40,6 +40,7 @@ export default class DonationHistoryFilter extends LightningElement {
     }
     handleOnchange(e) {
         this.value = e.detail.value;
+        this.dispatchEvent(new CustomEvent('filter', {detail: this.value}));
     }
 
 }

@@ -10,6 +10,7 @@ import donationHistoryDonorLabel from '@salesforce/label/c.donationHistoryDonorL
 export default class DonationHistoryTable extends LightningElement {
     @api contactId;
 
+    _filter;
     recordsToLoad = 50;
 
     paymentMethodLabel;
@@ -27,6 +28,16 @@ export default class DonationHistoryTable extends LightningElement {
     }
 
     columns = [];
+
+    @api
+    get filter() {
+        return this._filter;
+    }
+
+    set filter(value) {
+        this._filter = value
+        console.info('filter changed', this._filter);
+    }
 
     @wire(getObjectInfo, { objectApiName: DATA_IMPORT })
     oppInfo({ data, error }) {
