@@ -161,7 +161,7 @@ public class DonationHistoryController_TEST {
         Boolean influencer = false;
         Boolean role = false;
         Test.startTest();
-        List<DonationHistoryController.DonationHistory> donationHistory = DonationHistoryController.getDonationHistory(testContact.Id);
+        List<DonationHistoryController.DonationHistory> donationHistory = DonationHistoryController.getDonationHistory(testContact.Id, 'lifetime');
         Test.stopTest();
 
         for(DonationHistoryController.DonationHistory donation : donationHistory){
@@ -193,7 +193,7 @@ public class DonationHistoryController_TEST {
         ];
         
         Test.startTest();
-        List<DonationHistoryController.DonationHistory> donationHistory = DonationHistoryController.getDonationHistory(testContact.Id);
+        List<DonationHistoryController.DonationHistory> donationHistory = DonationHistoryController.getDonationHistory(testContact.Id, 'lifetime');
         Test.stopTest();
         System.assertEquals(0, donationHistory.size(), 'Should not return records');
     }
@@ -217,7 +217,7 @@ public class DonationHistoryController_TEST {
         try{
             Test.startTest();
             System.runAs(u){
-                List<DonationHistoryController.DonationHistory> donationHistory = DonationHistoryController.getDonationHistory(testContact.Id); 
+                List<DonationHistoryController.DonationHistory> donationHistory = DonationHistoryController.getDonationHistory(testContact.Id, 'lifetime'); 
             }
 	        Test.stopTest();
         } catch(Exception e){
@@ -228,12 +228,30 @@ public class DonationHistoryController_TEST {
 
     @IsTest
     private static void shouldReturnYearsForFilter () {
-       Contact thecontact = [Select id, Name from contact where FirstName ='TestFirstName11' limit 1];
+        Contact thecontact = [Select id, Name from contact where FirstName ='TestFirstName11' limit 1];
        
         List<String> donationsYears = DonationHistoryController.getYearsWithDonations(thecontact.id);
         System.assertNotEquals(null, donationsYears, 'donationsYears should not be null');
         System.assertEquals(2, donationsYears.size(), 'donationsYears should have 2 elements');
         System.assertEquals('2020', donationsYears[0], 'donationsYears should be in descendent order');
 
+    }
+    
+    @IsTest
+    private static void shouldReturnOneElementFor2019(){
+        Contact testContact = [
+            SELECT
+                Id
+            FROM Contact
+            WHERE FirstName = 'TestFirstName11'
+            LIMIT 1
+        ];        
+       
+        Test.startTest();
+        List<DonationHistoryController.DonationHistory> donationHistory = DonationHistoryController.getDonationHistory(testContact.Id, '2019');
+        Test.stopTest();
+
+        System.assertNotEquals(null, donationHistory, 'Donation History should not be empty');
+        System.assertEquals(1, donationHistory.size(), 'donationHistory should contain only one element');
     }
 }

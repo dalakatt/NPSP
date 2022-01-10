@@ -87,4 +87,24 @@ public inherited sharing class DonationHistorySelector {
                 GROUP BY Calendar_YEAR(Opportunity.CloseDate)
                 ORDER BY Calendar_YEAR(Opportunity.CloseDate) DESC];
     }
+
+    public List<OpportunityContactRole> getWonOpportunityContactRolesByContactIdAndYear(Id contactId, Integer year) {
+        return [
+            SELECT Id, 
+                Opportunity.Name, 
+                Opportunity.CloseDate, 
+                Opportunity.Amount, 
+                Contact.Email, 
+                Contact.Name, 
+                Role, 
+                isPrimary 
+            FROM OpportunityContactRole 
+            WHERE Opportunity.IsWon = true 
+            AND ContactId =:contactId 
+            AND Calendar_Year(Opportunity.CloseDate) = :year
+            WITH SECURITY_ENFORCED
+            ORDER BY Opportunity.CloseDate 
+            DESC LIMIT 2000
+        ];
+    }
 }

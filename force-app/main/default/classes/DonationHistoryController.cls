@@ -67,10 +67,10 @@ public with sharing class DonationHistoryController {
     * @description method to return Donation History list.
     */
     @AuraEnabled(cacheable=true)
-    public static List<DonationHistory> getDonationHistory(Id contactId){
+    public static List<DonationHistory> getDonationHistory(Id contactId, String filter){
         DonationHistoryService service = new DonationHistoryService();
         try {
-            return service.getDonationHistory(contactId);
+            return service.getDonationHistory(contactId, filter);
         } catch(Exception ex) {
             throw new UTIL_Permissions.InsufficientPermissionException(ex.getMessage());
         }

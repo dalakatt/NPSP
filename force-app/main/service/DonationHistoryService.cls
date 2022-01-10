@@ -69,14 +69,24 @@ public with sharing class DonationHistoryService {
     * @date 2021
     * @description method to return Donation History list.
     */
-    public List<DonationHistoryController.DonationHistory> getDonationHistory(Id contactId){
-        if (hasAccessToDonationHistory()) {
-            List<OpportunityContactRole> credits = new DonationHistorySelector().getWonOpportunityContactRolesByContactId(contactId);
-            List<DonationHistoryController.DonationHistory> result = buildDonationHistoryFromOCRs(credits);
-            return result;
-        } else {
+    public List<DonationHistoryController.DonationHistory> getDonationHistory(Id contactId, String filter) {
+        if (!hasAccessToDonationHistory()) {
             throw new UTIL_Permissions.InsufficientPermissionException(Label.commonInsufficientPermissions);
         }
+
+        List<OpportunityContactRole> credits = null;
+        if (shouldApplyFilterByYear(filter)) {
+            credits = new DonationHistorySelector().getWonOpportunityContactRolesByContactIdAndYear(contactId, Integer.valueOf(filter));
+        } else { 
+            credits = new DonationHistorySelector().getWonOpportunityContactRolesByContactId(contactId);
+        }
+
+        List<DonationHistoryController.DonationHistory> result = buildDonationHistoryFromOCRs(credits);
+        return result;
+    }
+
+    private boolean shouldApplyFilterByYear(String filter) {
+        return filter != null && filter.isNumeric();
     }
 
     /**

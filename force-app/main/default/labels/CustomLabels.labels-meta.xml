@@ -1394,6 +1394,14 @@
         <value>This Year</value>
     </labels>
     <labels>
+        <fullName>donationHistoryFilterSelectAYear</fullName>
+        <categories>Donors</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>label for select a year in donations filter</shortDescription>
+        <value>Select a year</value>
+    </labels>
+    <labels>
         <fullName>EPAddTask</fullName>
         <categories>Engagement Plans</categories>
         <language>en_US</language>

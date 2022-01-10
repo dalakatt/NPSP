@@ -11,6 +11,7 @@ export default class DonationHistoryTable extends LightningElement {
     @api contactId;
 
     _filter;
+    
     recordsToLoad = 50;
 
     paymentMethodLabel;
@@ -35,8 +36,8 @@ export default class DonationHistoryTable extends LightningElement {
     }
 
     set filter(value) {
-        this._filter = value
-        console.info('filter changed', this._filter);
+        this._filter = value;
+        this.retrieveDonationHistory();
     }
 
     @wire(getObjectInfo, { objectApiName: DATA_IMPORT })
@@ -57,12 +58,14 @@ export default class DonationHistoryTable extends LightningElement {
         ];
     }
     
+    connectedCallback() {
+        this.retrieveDonationHistory();
+    }
     // eslint-disable-next-line @lwc/lwc/no-async-await
-    async connectedCallback() {
-        getDonationHistory({contactId: this.contactId})
+    async retrieveDonationHistory() {
+        getDonationHistory({contactId: this.contactId, filter : this.filter})
         .then(data => {
             if (data) {
-                
                 this.allData = data;
                 this.data = data.slice(0, this.recordsToLoad);
                 this.totalNumberOfRows = data.length;
@@ -70,7 +73,6 @@ export default class DonationHistoryTable extends LightningElement {
             }
         });
     }
-
     /**
      * 
      * @param {*} event 
