@@ -853,27 +853,63 @@ flows:
             3:
                 task: update_admin_profile
 
+    config_trial_complete:
+        steps: 
+            1:
+                task: update_dependencies
+            2:
+                task: deploy
+                options:
+                    path: unpackaged/pre/account_record_types
+                ui_options:
+                    name: Account Record Types
+            3:
+                task: ensure_record_type
+                ui_options:
+                    name: Opportunity Record Types
+            4:
+                task: install_managed
+            5:
+                task: deploy_post
+                options:
+                    unmanaged: False
+                ui_options:
+                    first:
+                        name: NPSP Config for Salesforce Mobile App
+            6:  
+                flow: config_trial
+
     config_trial:
         steps:
             1:
-                task: deploy_trial_config
+                task: deploy
+                options:
+                    path: unpackaged/config/trial/record_types
                 ui_options:
-                    name: "NPSP Trial Experience"
-            #2:
-            #    task: update_dependencies
-            #    options:
-            #        dependencies:
-            #            - github: "https://github.com/SalesforceFoundation/pmm"
-            #3:
-            #    task: deploy_pmm_trial_config
-            #    ui_options:
-            #        name: "Configure Program Management Module"
-            #4:
-            #    task: pmm:deploy_customer_profiles
-            #    options:
-            #        unmanaged: False
-            #    ui_options:
-            #        name: "Install Program Management Module Profile"
+                    name: Opportunity Record Types
+            2: 
+                task: update_admin_profile
+                options:
+                    record_types:
+                        - record_type: Account.HH_Account
+                        - record_type: Account.Organization
+                          default: true
+                        - record_type: Opportunity.NPSP_Default
+                        - record_type: Opportunity.Membership
+                        - record_type: Opportunity.MatchingGift
+                        - record_type: Opportunity.MajorGift
+                        - record_type: Opportunity.InKindGift
+                        - record_type: Opportunity.Grant
+                        - record_type: Opportunity.Donation
+                          default: true
+            3:
+                task: deploy
+                options:
+                    path: unpackaged/config/trial/main/
+            4: 
+                task: deploy
+                options:
+                    path: unpackaged/config/trial/profiles/
 
     config_packaging:
         steps:

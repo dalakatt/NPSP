@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <listViews>
+        <fullName>AllDonations</fullName>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>OPPORTUNITY.RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Opportunity.Donation</value>
+        </filters>
+        <label>All Donations</label>
+    </listViews>
+    <recordTypes>
+        <fullName>Donation</fullName>
+        <active>true</active>
+        <businessProcess>NPSP_Default</businessProcess>
+        <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+        <description>Donation Received</description>
+        <label>Donation</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Grant</fullName>
+        <active>true</active>
+        <businessProcess>NPSP_Default</businessProcess>
+        <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+        <description>Grant Received</description>
+        <label>Grant</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>InKindGift</fullName>
+        <active>true</active>
+        <businessProcess>NPSP_Default</businessProcess>
+        <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+        <description>Goods or Services received as In-Kind</description>
+        <label>In-Kind Gift</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>MajorGift</fullName>
+        <active>true</active>
+        <businessProcess>NPSP_Default</businessProcess>
+        <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+        <description>Large Donation from a Major Donor</description>
+        <label>Major Gift</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>MatchingGift</fullName>
+        <active>true</active>
+        <businessProcess>NPSP_Default</businessProcess>
+        <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+        <description>Matching Donation from an Donor&apos;s Employer or other Organization</description>
+        <label>Matching Gift</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Membership</fullName>
+        <active>true</active>
+        <businessProcess>NPSP_Default</businessProcess>
+        <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+        <description>A membership record type</description>
+        <label>Membership</label>
+    </recordTypes>
+</CustomObject>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Gender__c</fullName>
+        <description>This field is configured in NPSP Settings &gt; Relationships &gt; Relationships as the Gender field. Do not delete this field unless you remove the reference or select another Gender field there.</description>
+        <externalId>false</externalId>
+        <label>Gender</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Male</fullName>
+                    <default>false</default>
+                    <label>Male</label>
+                </value>
+                <value>
+                    <fullName>Female</fullName>
+                    <default>false</default>
+                    <label>Female</label>
+                </value>
+                <value>
+                    <fullName>Non-Binary</fullName>
+                    <default>false</default>
+                    <label>Non-Binary</label>
+                </value>
+                <value>
+                    <fullName>Prefer Not To Say</fullName>
+                    <default>false</default>
+                    <label>Prefer Not To Say</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <validationRules>
+        <fullName>Contact_Preferred_Email</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+ISPICKVAL( npe01__Preferred_Email__c ,&quot;&quot;),
+OR(
+LEN(npe01__AlternateEmail__c  )&gt;0,
+LEN(npe01__WorkEmail__c )&gt;0,
+LEN(npe01__HomeEmail__c  )&gt;0
+)
+)</errorConditionFormula>
+        <errorDisplayField>npe01__Preferred_Email__c</errorDisplayField>
+        <errorMessage>Please select a Preferred Email</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Contact_Preferred_Phone</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+ ISPICKVAL(npe01__PreferredPhone__c ,&quot;&quot;),
+OR(
+ LEN(MobilePhone)&gt;0,
+ LEN( npe01__WorkPhone__c)&gt;0,
+ LEN( OtherPhone )&gt;0
+)
+)</errorConditionFormula>
+        <errorDisplayField>npe01__PreferredPhone__c</errorDisplayField>
+        <errorMessage>Please select a Preferred Phone</errorMessage>
+    </validationRules>
+</CustomObject>
