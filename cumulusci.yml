@@ -902,11 +902,15 @@ flows:
                         - record_type: Opportunity.Grant
                         - record_type: Opportunity.Donation
                           default: true
-            3:
+            3: 
+                flow: enable_rd2_managed               
+            4: 
+                task: npsp_default_settings
+            5:
                 task: deploy
                 options:
                     path: unpackaged/config/trial/main/
-            4: 
+            6: 
                 task: deploy
                 options:
                     path: unpackaged/config/trial/profiles/
