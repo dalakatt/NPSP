@@ -106,6 +106,16 @@
         <name>QuickAction</name>
     </types>
     <types>
+        <members>ContactPageGuidance</members>
+        <members>GetStartedwithNPSP</members>
+        <members>NPSPContactMergeGuidance</members>
+        <members>OpportunityPageGuidance</members>
+        <members>OpportunityPageGuidanceOrganizationDonation</members>
+        <members>ReportGuidance</members>
+        <members>ReportGuidanceStandardReportTypes</members>
+        <name>Prompt</name>
+    </types>
+    <types>
         <members>Opportunity.Donation</members>
         <members>Opportunity.Grant</members>
         <members>Opportunity.InKindGift</members>
