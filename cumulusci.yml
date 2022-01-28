@@ -948,6 +948,8 @@ flows:
             1:
                 task: enable_crlp
                 # Enable customizable rollups after enabling RD2
+                ui_options:
+                    name: Enable Customizable Rollups
             2:
                 task: custom_settings_value_wait
                 # Wait for CRLP to be fully enabled before continuing with data migration
@@ -955,6 +957,8 @@ flows:
                     object: "%%%NAMESPACE%%%Customizable_Rollup_Settings__c"
                     field: "%%%NAMESPACE%%%Customizable_Rollups_Enabled__c"
                     value: true
+                ui_options:
+                    name: Wait for Customizable Rollup Enablement to Complete
             3:
                 task: execute_anon
                 # Enables RD2 in Custom Settings.
@@ -969,9 +973,13 @@ flows:
                         Type t = Type.forName(ns, 'Callable_Api');
                         Callable apiClass = (Callable)t.newInstance();
                         apiClass.call('Settings.EnableEnhancedRecurringDonations', params);
+                ui_options:
+                    name: Enable Enhanced Recurring Donations in Custom Settings
             4:
                 task: deploy_rd2_config
                 # Deploys the unpackaged configuration required for RD2
+                ui_options:
+                    name: Deploy Enhanced Recurring Donations Configuration
             5:
                 task: execute_anon
                 # Update enhanced Recurring Donation enablement page state
@@ -980,6 +988,8 @@ flows:
                         npe03__Recurring_Donations_Settings__c rdSettings = npe03__Recurring_Donations_Settings__c.getOrgDefaults();
                         rdSettings.%%%NAMESPACE%%%RecurringDonations2EnablementState__c = '{"isReady":true,"isMigrationEnabled":true,"isMetaLaunched":true,"isMetaConfirmed":true,"isEnabled":true,"isDryRun2":false,"isConfirmed":true,"dryRunLimit":7}';
                         upsert rdSettings;
+                ui_options:
+                    name: Update Enhanced Recurring Donations Page State
             6:
                 task: execute_anon
                  # Execute the data migration job in case there is any RD test data in the org
@@ -990,11 +1000,15 @@ flows:
                         Type t = Type.forName(ns, 'Callable_Api');
                         Callable apiClass = (Callable)t.newInstance();
                         apiClass.call('RD2.ExecuteDataMigration', params);
+                ui_options:
+                    name: Execute Recurring Donations Migration Job
             7:
                 task: batch_apex_wait
                 # Wait until after the data migration job has completed
                 options:
                     class_name: RD2_DataMigration_BATCH
+                ui_options:
+                    name: Wait for Enhanced Recurring Donations Job to Complete
 
     enable_rd2_managed:
         description: 'Fully configures and enables a Scratch org with Enhanced Recurring Donations (managed package only)'
