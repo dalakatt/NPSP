@@ -888,29 +888,33 @@ flows:
                 ui_options:
                     name: Opportunity Record Types
             2: 
-                task: update_admin_profile
-                options:
-                    record_types:
-                        - record_type: Account.HH_Account
-                        - record_type: Account.Organization
-                          default: true
-                        - record_type: Opportunity.NPSP_Default
-                        - record_type: Opportunity.Membership
-                        - record_type: Opportunity.MatchingGift
-                        - record_type: Opportunity.MajorGift
-                        - record_type: Opportunity.InKindGift
-                        - record_type: Opportunity.Grant
-                        - record_type: Opportunity.Donation
-                          default: true
-            3: 
                 flow: enable_rd2_managed               
-            4: 
+            3: 
                 task: npsp_default_settings
-            5:
+            4:
                 task: deploy
                 options:
                     path: unpackaged/config/trial/main/
-            6: 
+            
+
+    update_admin_profile_trial:
+        steps:
+            1: 
+            #     task: update_admin_profile
+            #     options:
+            #         record_types:
+            #             - record_type: Account.HH_Account
+            #             - record_type: Account.Organization
+            #               default: true
+            #             - record_type: Opportunity.NPSP_Default
+            #             - record_type: Opportunity.Membership
+            #             - record_type: Opportunity.MatchingGift
+            #             - record_type: Opportunity.MajorGift
+            #             - record_type: Opportunity.InKindGift
+            #             - record_type: Opportunity.Grant
+            #             - record_type: Opportunity.Donation
+            #               default: true
+            # 2: 
                 task: deploy
                 options:
                     path: unpackaged/config/trial/profiles/
